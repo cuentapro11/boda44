@@ -650,7 +650,7 @@ body {
 .carousel-ornament.bottom { bottom: 0; }
 
 .carousel-item {
-    flex: 0 0 100%;
+    flex: 0 0 33.3333%;
     height: 400px;
 }
 
@@ -867,6 +867,7 @@ body {
 @media (max-width: 1024px) {
     .hero-split { grid-template-columns: 1fr; height: 60vh; }
     .hero-left { background-size: contain; background-position: center top; }
+    .carousel-item { flex: 0 0 50%; }
 }
 
 @media (max-width: 768px) {
@@ -884,7 +885,7 @@ body {
     .events-container { grid-template-columns: 1fr; gap: 2rem; }
     .party-grid { grid-template-columns: 1fr; }
 
-    .carousel-item { height: 320px; }
+    .carousel-item { height: 320px; flex: 0 0 100%; }
     .carousel-btn { width: 40px; height: 40px; font-size: 1rem; }
 
     /* Full-bleed on mobile */
