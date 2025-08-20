@@ -543,23 +543,57 @@
     <!-- Swiper JS para móvil -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Inicializar Swiper solo en móvil
-        if (window.innerWidth <= 768) {
-            const swiper = new Swiper('.swiper-container', {
-                slidesPerView: 1,
-                centeredSlides: true,
-                loop: true,
-                spaceBetween: 0,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-            });
-        }
+        // Inicializar Swiper de forma robusta en móvil, sin cambiar diseño ni imágenes
+        (function(){
+            let mobileSwiper = null;
+
+            function initMobileSwiper() {
+                const isMobile = window.innerWidth <= 768;
+                const container = document.querySelector('.swiper-container');
+                if (!container) return;
+
+                if (isMobile && !mobileSwiper) {
+                    mobileSwiper = new Swiper('.swiper-container', {
+                        slidesPerView: 1,
+                        centeredSlides: true,
+                        loop: true,
+                        spaceBetween: 0,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                    });
+
+                    // Asegurar navegación funcional incluso si el módulo no enlaza por CSS
+                    const nextBtn = document.querySelector('.swiper-button-next');
+                    const prevBtn = document.querySelector('.swiper-button-prev');
+                    if (nextBtn) nextBtn.addEventListener('click', () => mobileSwiper && mobileSwiper.slideNext());
+                    if (prevBtn) prevBtn.addEventListener('click', () => mobileSwiper && mobileSwiper.slidePrev());
+                }
+
+                // Si se vuelve a desktop, destruimos para no interferir con el carrusel desktop
+                if (!isMobile && mobileSwiper) {
+                    mobileSwiper.destroy(true, true);
+                    mobileSwiper = null;
+                }
+            }
+
+            // Init inmediato
+            initMobileSwiper();
+
+            // Re-init en cambios de tamaño/orientación con debounce
+            let resizeTimer = null;
+            function scheduleReinit() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(initMobileSwiper, 150);
+            }
+            window.addEventListener('resize', scheduleReinit, { passive: true });
+            window.addEventListener('orientationchange', scheduleReinit, { passive: true });
+        })();
     </script>
 </body>
 </html>
