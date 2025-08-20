@@ -2153,12 +2153,18 @@ html, body { overflow-x: hidden; }
 }
 
 .swiper-slide img {
-  width: 90%;
+  width: 100%;
   height: auto;
   object-fit: contain;
   border-radius: 10px;
   border: 4px solid #ffffff;
   box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 768px) {
+  .swiper-container {
+    max-width: 100% !important;
+  }
 }
 
 /* Flechas doradas */
