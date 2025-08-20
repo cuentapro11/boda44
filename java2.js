@@ -212,7 +212,7 @@ function initializeCarousel() {
         updateCarousel(visibleSlides);
     });
 
-    // Auto-play del carrusel
+    // Auto-play del carrusel cada 3s
     setInterval(() => {
         if (currentSlide < maxIndex) {
             currentSlide++;
@@ -220,7 +220,7 @@ function initializeCarousel() {
             currentSlide = 0;
         }
         updateCarousel(visibleSlides);
-    }, 4000);
+    }, 3000);
 
     // Recalcular en resize
     window.addEventListener('resize', () => {
